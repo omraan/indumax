@@ -20,10 +20,6 @@ function Projects() {
 			},
 			image: koffielust,
 			imageClasses: "bg-right",
-			button: {
-				text: "Goedgekeurd door de omgevingsdienst",
-				link: "#",
-			},
 		},
 		{
 			title: "Probat AG",

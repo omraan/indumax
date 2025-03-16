@@ -12,7 +12,7 @@ import {
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
 const links = {
 	general: [
@@ -37,6 +37,10 @@ const links = {
 			href: "/filtersystemen/eco-50",
 		},
 	],
+	languages: [
+		{ name: "Nederlands", href: "https://www.indumax.nl" },
+		{ name: "English", href: "https://en.indumax.nl" },
+	],
 };
 
 function classNames(...classes: any[]) {
@@ -45,6 +49,17 @@ function classNames(...classes: any[]) {
 
 function Header() {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+	const [language, setLanguage] = useState("Nederlands");
+	useEffect(() => {
+		if (typeof window !== "undefined") {
+			const hostname = window.location.hostname;
+			if (hostname === "localhost" || hostname === "www.indumax.nl" || hostname === "indumax.nl") {
+				setLanguage("Nederlands");
+			} else {
+				setLanguage("English");
+			}
+		}
+	}, []);
 
 	return (
 		<header className="bg-primary fixed top-0 w-full z-10">
@@ -108,6 +123,43 @@ function Header() {
 							{item.name}
 						</a>
 					))}
+
+					<Popover.Group className="hidden lg:flex">
+						<Popover className="relative">
+							<Popover.Button className="flex items-center gap-x-1 text-sm leading-6 text-white">
+								{language}
+								<ChevronDownIcon className="h-5 w-5 flex-none text-white/75" aria-hidden="true" />
+							</Popover.Button>
+
+							<Transition
+								as={Fragment}
+								enter="transition ease-out duration-200"
+								enterFrom="opacity-0 translate-y-1"
+								enterTo="opacity-100 translate-y-0"
+								leave="transition ease-in duration-150"
+								leaveFrom="opacity-100 translate-y-0"
+								leaveTo="opacity-0 translate-y-1"
+							>
+								<Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5 rounded-lg">
+									<div className="p-4">
+										{links.languages.map((item) => (
+											<div
+												key={item.name}
+												className="group relative flex items-center gap-x-6 rounded-lg p-2 text-sm leading-6 hover:bg-gray-50"
+											>
+												<div className="flex-auto">
+													<a href={item.href} className="block font-semibold text-gray-900">
+														{item.name}
+														<span className="absolute inset-0" />
+													</a>
+												</div>
+											</div>
+										))}
+									</div>
+								</Popover.Panel>
+							</Transition>
+						</Popover>
+					</Popover.Group>
 				</div>
 			</nav>
 			<Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
@@ -163,6 +215,34 @@ function Header() {
 										{item.name}
 									</a>
 								))}
+								<Disclosure as="div" className="-mx-3">
+									{({ open }) => (
+										<>
+											<Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+												{language}
+												<ChevronDownIcon
+													className={classNames(
+														open ? "rotate-180" : "",
+														"h-5 w-5 flex-none"
+													)}
+													aria-hidden="true"
+												/>
+											</Disclosure.Button>
+											<Disclosure.Panel className="mt-2 space-y-2">
+												{links.languages.map((item) => (
+													<Disclosure.Button
+														key={item.name}
+														as="a"
+														href={item.href}
+														className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+													>
+														{item.name}
+													</Disclosure.Button>
+												))}
+											</Disclosure.Panel>
+										</>
+									)}
+								</Disclosure>
 							</div>
 						</div>
 					</div>

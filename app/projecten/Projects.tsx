@@ -63,10 +63,6 @@ function Projects() {
 			},
 			image: koffielovers,
 			imageClasses: "bg-center",
-			button: {
-				text: "Goedgekeurd door de omgevingsdienst",
-				link: "#",
-			},
 		},
 		{
 			title: "Pure Flavor koffiebranderij",
@@ -78,10 +74,6 @@ function Projects() {
 			},
 			image: pureflavor,
 			imageClasses: "bg-right",
-			button: {
-				text: "Goedgekeurd door de omgevingsdienst",
-				link: "#",
-			},
 		},
 		{
 			title: "Koffiebranderij Gulden Tas",
